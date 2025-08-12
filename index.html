@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acid Trip Site</title>
+<style>
+    /* Reset margins and make body take full screen */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /* Fullscreen looping video background */
+    video {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+
+    /* Center PNG over video */
+    .overlay {
+        position: absolute;
+     
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        height: 75%; /* 2/3 of the video height */
+    }
+
+    .overlay img {
+        height: 100%;
+        width: auto;
+        display: block;
+    }
+</style>
+
+</head>
+<body>
+
+    <!-- Background video -->
+    <video autoplay muted loop playsinline>
+        <source src="acidtrip site bg.mp4" type="video/quicktime">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Instagram icon -->
+    <a href="https://www.instagram.com/acidtrip.ca/" target="_blank" class="instagram-link">
+        <img src="instagram.svg" alt="Instagram" class="instagram-icon">
+    </a>
+ 
+    <!-- PNG overlay -->
+    <div class="overlay">
+    <img src="inside2.png" alt="Overlay Image" class="main-img">
+    <div class="face-link">
+    <img src="j face.png" alt="J Face" class="face-img">
+</div>
+<div class="anh-face-link">
+    <img src="anh face.png" alt="Anh Face" class="anh-face-img">
+</div>
+</a>
+<!-- Snake overlay -->
+        <div class="audio-overlay snake-overlay">
+            <img src="snake.png" alt="Snake" class="snake-img">
+        </div>
+        <!-- Goat overlay -->
+        <div class="audio-overlay goat-overlay">
+            <img src="goat.png" alt="Goat" class="goat-img">
+        </div>
+</div>
+
+<!-- Audio elements -->
+    <audio id="audio1" src="audio1.m4a"></audio>
+    <audio id="audio2" src="audio2.m4a"></audio>
+    <audio id="audio3" src="audio3.m4a"></audio>
+    <audio id="audio4" src="audio4.m4a"></audio>
+
+    <script>
+function playOrPauseAudio(audioId) {
+    const audios = [
+        document.getElementById('audio1'),
+        document.getElementById('audio2'),
+        document.getElementById('audio3'),
+        document.getElementById('audio4')
+    ];
+    audios.forEach(audio => {
+        if (audio.id === audioId) {
+            if (!audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+            } else {
+                audios.forEach(a => {
+                    if (a !== audio) {
+                        a.pause();
+                        a.currentTime = 0;
+                    }
+                });
+                audio.currentTime = 0;
+                audio.play();
+            }
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    });
+}
+
+document.querySelector('.snake-overlay').addEventListener('click', function(e) {
+    e.stopPropagation();
+    playOrPauseAudio('audio1');
+});
+
+document.querySelector('.goat-overlay').addEventListener('click', function(e) {
+    e.stopPropagation();
+    playOrPauseAudio('audio2');
+});
+
+document.querySelector('.face-link').addEventListener('click', function(e) {
+    e.stopPropagation();
+    playOrPauseAudio('audio3');
+});
+
+document.querySelector('.anh-face-link').addEventListener('click', function(e) {
+    e.stopPropagation();
+    playOrPauseAudio('audio4');
+});
+</script>
+
+
+<style>
+        .instagram-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .instagram-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    filter: brightness(0) invert(1); /* makes most SVGs white */
+}
+
+        .audio-overlay {
+            position: absolute;
+            cursor: pointer;
+            /* Adjust these for clickable area and placement */
+            width: 10%;
+            height: 15%;
+            z-index: 10;
+        }
+        .snake-overlay {
+            left: 20%;  /* Adjust position over inside2.png */
+            top: 40%;   /* Adjust position over inside2.png */
+        }
+        .goat-overlay {
+            left: 60%;  /* Adjust position over inside2.png */
+            top: 50%;   /* Adjust position over inside2.png */
+        }
+        .snake-img, .goat-img {
+            width: 4497px;
+            height: 4000px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            position: absolute;
+            left: 0; top: 0;
+        }
+        .snake-overlay:hover .snake-img,
+        .snake-overlay:focus .snake-img {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .goat-overlay:hover .goat-img,
+        .goat-overlay:focus .goat-img {
+            opacity: 1;
+            pointer-events: auto;
+        }
+.overlay {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 75%;
+    width: auto;
+    display: block;
+}
+
+.face-img {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 50%;
+    width: 50%;
+    display: block;
+}
+
+.face-link {
+    position: absolute;
+    left: 57.8%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 15%;
+    height: 100%; /* adjust as needed */
+    display: block;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.face-img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.face-link:hover .face-img {
+    opacity: 1;
+}
+.anh-face-link {
+    position: absolute;
+    left: 36%; /* Center horizontally over inside2.png */
+    bottom: 56.9%;
+    transform: translateX(-50%);
+    width: 26.5%;   /* Adjust as needed for face size/area */
+    height: 33%; /* Adjust as needed for face size/area */
+    z-index: 3;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    background: rgba(0,255,0,0.2);
+}
+
+.anh-face-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-width: 1200px;   /* Set desired max width */
+    max-height: 1200px;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: block;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.anh-face-link:hover .anh-face-img,
+.anh-face-link:focus .anh-face-img {
+    opacity: 1;
+}
+</style>
+</body>
+</html>

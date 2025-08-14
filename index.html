@@ -1,154 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acid Trip Site</title>
-<style>
-    /* Reset margins and make body take full screen */
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-    }
-
-    /* Fullscreen looping video background */
-    video {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -1;
-        transform: translate(-50%, -50%);
-        object-fit: cover;
-    }
-
-    /* Center PNG over video */
-    .overlay {
-        position: absolute;
-     
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        height: 75%; /* 2/3 of the video height */
-    }
-
-    .overlay img {
-        height: 100%;
-        width: auto;
-        display: block;
-    }
-</style>
-
-</head>
-<body>
-
-    <!-- Background video -->
-    <video autoplay muted loop playsinline>
-        <source src="acidtrip site bg.mp4" type="video/quicktime">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Instagram icon -->
-    <a href="https://www.instagram.com/acidtrip.ca/" target="_blank" class="instagram-link">
-        <img src="instagram.svg" alt="Instagram" class="instagram-icon">
-    </a>
- 
-    <!-- PNG overlay -->
-    <div class="overlay">
-    <img src="inside2.png" alt="Overlay Image" class="main-img">
-    <div class="face-link">
-    <img src="j face.png" alt="J Face" class="face-img">
-</div>
-<div class="anh-face-link">
-    <img src="anh face.png" alt="Anh Face" class="anh-face-img">
-</div>
-</a>
-<!-- Snake overlay -->
-        <div class="audio-overlay snake-overlay">
-            <img src="snake.png" alt="Snake" class="snake-img">
-        </div>
-        <!-- Goat overlay -->
-        <div class="audio-overlay goat-overlay">
-            <img src="goat.png" alt="Goat" class="goat-img">
-        </div>
-</div>
-
-<!-- Audio elements -->
-    <audio id="audio1" src="audio1.m4a"></audio>
-    <audio id="audio2" src="audio2.m4a"></audio>
-    <audio id="audio3" src="audio3.m4a"></audio>
-    <audio id="audio4" src="audio4.m4a"></audio>
-
-    <script>
-function playOrPauseAudio(audioId) {
-    const audios = [
-        document.getElementById('audio1'),
-        document.getElementById('audio2'),
-        document.getElementById('audio3'),
-        document.getElementById('audio4')
-    ];
-    audios.forEach(audio => {
-        if (audio.id === audioId) {
-            if (!audio.paused) {
-                audio.pause();
-                audio.currentTime = 0;
-            } else {
-                audios.forEach(a => {
-                    if (a !== audio) {
-                        a.pause();
-                        a.currentTime = 0;
-                    }
-                });
-                audio.currentTime = 0;
-                audio.play();
-            }
-        } else {
-            audio.pause();
-            audio.currentTime = 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acid Trip Site</title>
+    <style>
+        /* Reset margins and make body take full screen */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
         }
-    });
-}
 
-document.querySelector('.snake-overlay').addEventListener('click', function(e) {
-    e.stopPropagation();
-    playOrPauseAudio('audio1');
-});
+        /* Fullscreen looping video background */
+        video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
 
-document.querySelector('.goat-overlay').addEventListener('click', function(e) {
-    e.stopPropagation();
-    playOrPauseAudio('audio2');
-});
+        /* Center PNG over video */
+        .overlay {
+            position: absolute;
 
-document.querySelector('.face-link').addEventListener('click', function(e) {
-    e.stopPropagation();
-    playOrPauseAudio('audio3');
-});
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 75%;
+            /* 2/3 of the video height */
+        }
 
-document.querySelector('.anh-face-link').addEventListener('click', function(e) {
-    e.stopPropagation();
-    playOrPauseAudio('audio4');
-});
-</script>
+        .overlay img {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
 
-
-<style>
-        .instagram-link {
+        .corner-icon {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 100;
+            width: 48px;
+            height: 48px;
         }
+
+        .instagram-icon,
+        .smile-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+        }
+
         .instagram-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    filter: brightness(0) invert(1); /* makes most SVGs white */
-}
+            filter: brightness(0) invert(1);
+            display: inline;
+        }
+
+        .smile-icon {
+            filter: brightness(0) invert(1);
+            animation: rotate-smile 3s linear infinite;
+            display: none;
+        }
+
+        @keyframes rotate-smile {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .audio-overlay {
             position: absolute;
@@ -158,115 +94,383 @@ document.querySelector('.anh-face-link').addEventListener('click', function(e) {
             height: 15%;
             z-index: 10;
         }
-        .snake-overlay {
-            left: 20%;  /* Adjust position over inside2.png */
-            top: 40%;   /* Adjust position over inside2.png */
+
+        .overlay {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 75%;
+            width: auto;
+            display: block;
         }
-        .goat-overlay {
-            left: 60%;  /* Adjust position over inside2.png */
-            top: 50%;   /* Adjust position over inside2.png */
+
+        .face-img {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 50%;
+            width: 50%;
+            display: block;
         }
-        .snake-img, .goat-img {
-            width: 4497px;
-            height: 4000px;
+
+        .face-link {
+            position: absolute;
+            left: 59.1%;
+            /* Center horizontally over inside2.png */
+            bottom: 77%;
+            transform: translateX(-50%);
+            width: 23%;
+            height: 23%;
+            /* Adjust as needed for face size/area */
+            z-index: 3;
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .face-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            max-width: 1200px;
+            /* Set desired max width */
+            max-height: 1200px;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
             opacity: 0;
             transition: opacity 0.5s;
+            display: block;
             pointer-events: none;
-            position: absolute;
-            left: 0; top: 0;
+            z-index: 4;
         }
+
+        .face-link:hover .face-img {
+            opacity: 1;
+        }
+
+        .anh-face-link {
+            position: absolute;
+            left: 37.4%;
+            /* Center horizontally over inside2.png */
+            bottom: 57.5%;
+            transform: translateX(-50%);
+            width: 26.9%;
+            /* Adjust as needed for face size/area */
+            height: 33.4%;
+            /* Adjust as needed for face size/area */
+            z-index: 3;
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .anh-face-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            max-width: 1200px;
+            /* Set desired max width */
+            max-height: 1200px;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: block;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .anh-face-link:hover .anh-face-img,
+        .anh-face-link:focus .anh-face-img {
+            opacity: 1;
+        }
+
+        .snake-overlay {
+            position: absolute;
+            left: 28.08%;
+            /* Center horizontally over inside2.png */
+            bottom: 3.55%;
+            transform: translateX(-50%);
+            width: 30.9%;
+            /* Adjust as needed for face size/area */
+            height: 64.4%;
+            /* Adjust as needed for face size/area */
+            z-index: 3;
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .snake-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            max-width: 1200px;
+            /* Set desired max width */
+            max-height: 1200px;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: block;
+            pointer-events: none;
+            z-index: 4;
+        }
+
         .snake-overlay:hover .snake-img,
         .snake-overlay:focus .snake-img {
             opacity: 1;
             pointer-events: auto;
         }
+
+        .goat-overlay {
+            position: absolute;
+            left: 66%;
+            /* Center horizontally over inside2.png */
+            bottom: 37.2%;
+            transform: translateX(-50%);
+            width: 52.4%;
+            /* Adjust as needed for face size/area */
+            height: 52.4%;
+            /* Adjust as needed for face size/area */
+            z-index: 3;
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .goat-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            max-width: 100%;
+                /* Set desired max width */
+            max-height: 100%; 
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: block;
+            pointer-events: none;
+            z-index: 4;
+        }
+
         .goat-overlay:hover .goat-img,
         .goat-overlay:focus .goat-img {
             opacity: 1;
             pointer-events: auto;
         }
-.overlay {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    height: 75%;
-    width: auto;
-    display: block;
-}
 
-.face-img {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    height: 50%;
-    width: 50%;
-    display: block;
-}
+        #weasel-cloud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
 
-.face-link {
-    position: absolute;
-    left: 57.8%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 15%;
-    height: 100%; /* adjust as needed */
-    display: block;
-    z-index: 2;
-    overflow: hidden;
-}
+        .weasel-fly {
+            position: absolute;
+            left: 50vw;
+            top: 50vh;
+            width: 1px;
+            height: 1px;
+            opacity: 0.8;
+            animation: flyWeasel 8.33s linear forwards;
+            /* 2.5s * 0.3 = 8.33s */
+        }
 
-.face-img {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s;
-    display: block;
-    pointer-events: none;
-    z-index: 3;
-}
+        @keyframes flyWeasel {
+            from {
+                transform: scale(1) translate(0, 0);
+                opacity: 0.8;
+            }
 
-.face-link:hover .face-img {
-    opacity: 1;
-}
-.anh-face-link {
-    position: absolute;
-    left: 36%; /* Center horizontally over inside2.png */
-    bottom: 56.9%;
-    transform: translateX(-50%);
-    width: 26.5%;   /* Adjust as needed for face size/area */
-    height: 33%; /* Adjust as needed for face size/area */
-    z-index: 3;
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    background: rgba(0,255,0,0.2);
-}
+            to {
+                /* Move to a random direction and scale up */
+                transform: scale(8) translate(var(--tx, 0), var(--ty, 0));
+                opacity: 0;
+            }
+        }
+    </style>
 
-.anh-face-img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    max-width: 1200px;   /* Set desired max width */
-    max-height: 1200px;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.5s;
-    display: block;
-    pointer-events: none;
-    z-index: 4;
-}
+</head>
 
-.anh-face-link:hover .anh-face-img,
-.anh-face-link:focus .anh-face-img {
-    opacity: 1;
-}
-</style>
+<body>
+
+    <!-- Background video -->
+    <video autoplay muted loop playsinline>
+        <source src="acidtrip site bg.mp4" type="video/quicktime">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="corner-icon" id="cornerIcon">
+        <img src="instagram.svg" alt="Instagram" class="instagram-icon" id="instagramIcon">
+        <img src="smile.svg" alt="Smile" class="smile-icon" id="smileIcon" style="display:none;">
+    </div>
+
+    <!-- PNG overlay -->
+    <div class="overlay">
+        <img src="inside2.png" alt="Overlay Image" class="main-img">
+        <div class="face-link">
+            <img src="j face.png" alt="J Face" class="face-img">
+        </div>
+        <div class="anh-face-link">
+            <img src="anh face.png" alt="Anh Face" class="anh-face-img">
+        </div>
+       
+        <!-- Snake overlay -->
+        <div class="audio-overlay snake-overlay">
+            <img src="snake.png" alt="Snake" class="snake-img">
+        </div>
+        <!-- Goat overlay -->
+        <div class="audio-overlay goat-overlay">
+            <img src="goat.png" alt="Goat" class="goat-img">
+        </div>
+    </div>
+    <!-- Add this inside your <body>, after your overlay div -->
+    <div id="weasel-cloud"></div>
+
+    <!-- Audio elements -->
+    <audio id="audio1" src="audio1.m4a"></audio>
+    <audio id="audio2" src="audio2.m4a"></audio>
+    <audio id="audio3" src="audio3.m4a"></audio>
+    <audio id="audio4" src="audio4.m4a"></audio>
+
+    <script>
+        function playOrPauseAudio(audioId) {
+            const audios = [
+                document.getElementById('audio1'),
+                document.getElementById('audio2'),
+                document.getElementById('audio3'),
+                document.getElementById('audio4')
+            ];
+            audios.forEach(audio => {
+                if (audio.id === audioId) {
+                    if (!audio.paused) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    } else {
+                        audios.forEach(a => {
+                            if (a !== audio) {
+                                a.pause();
+                                a.currentTime = 0;
+                            }
+                        });
+                        audio.currentTime = 0;
+                        audio.play();
+                    }
+                } else {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        }
+
+        function spawnWeaselCloud() {
+            const cloud = document.getElementById('weasel-cloud');
+            cloud.innerHTML = '';
+            for (let i = 0; i < 12; i++) { // Number of weasels
+                const img = document.createElement('img');
+                img.src = 'weasel.svg';
+                img.className = 'weasel-fly';
+
+                // Random angle and distance
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = 60 + Math.random() * 40; // percent of viewport
+                const tx = Math.cos(angle) * distance + 'vw';
+                const ty = Math.sin(angle) * distance + 'vh';
+
+                img.style.setProperty('--tx', tx);
+                img.style.setProperty('--ty', ty);
+
+                // Animation duration (randomize a bit if you want)
+                img.style.animationDuration = (8.33 + Math.random()) + 's';
+
+                cloud.appendChild(img);
+            }
+        }
+
+        function clearWeaselCloud() {
+            document.getElementById('weasel-cloud').innerHTML = '';
+        }
+
+        document.querySelector('.snake-overlay').addEventListener('click', function (e) {
+            e.stopPropagation();
+            const audio = document.getElementById('audio1');
+            if (!audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+                clearWeaselCloud();
+            } else {
+                // Stop other audios
+                ['audio2', 'audio3', 'audio4'].forEach(id => {
+                    const a = document.getElementById(id);
+                    a.pause();
+                    a.currentTime = 0;
+                });
+                audio.currentTime = 0;
+                audio.play();
+                spawnWeaselCloud();
+            }
+        });
+
+        // Remove weasels when audio1 ends or is paused
+        document.getElementById('audio1').addEventListener('pause', clearWeaselCloud);
+        document.getElementById('audio1').addEventListener('ended', clearWeaselCloud);
+
+        document.querySelector('.goat-overlay').addEventListener('click', function (e) {
+            e.stopPropagation();
+            playOrPauseAudio('audio2');
+        });
+
+        document.querySelector('.face-link').addEventListener('click', function (e) {
+            e.stopPropagation();
+            playOrPauseAudio('audio3');
+        });
+
+        document.querySelector('.anh-face-link').addEventListener('click', function (e) {
+            e.stopPropagation();
+            playOrPauseAudio('audio4');
+        });
+
+
+
+
+        let showInstagram = true;
+        const instagramIcon = document.getElementById('instagramIcon');
+        const smileIcon = document.getElementById('smileIcon');
+        const instagramLink = "https://www.instagram.com/acidtrip.ca/";
+
+        setInterval(() => {
+            showInstagram = !showInstagram;
+            if (showInstagram) {
+                instagramIcon.style.display = 'inline';
+                smileIcon.style.display = 'none';
+            } else {
+                instagramIcon.style.display = 'none';
+                smileIcon.style.display = 'inline';
+            }
+        }, 1000); // Switch every 1 second
+
+        // Make both icons clickable and link to Instagram
+        document.getElementById('cornerIcon').onclick = function () {
+            window.open(instagramLink, '_blank');
+        };
+
+    </script>
+
+
+
+
 </body>
+
 </html>

@@ -248,10 +248,9 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            max-width: 100%;
+            max-width: 100%
                 /* Set desired max width */
-            max-height: 100%; 
-            width: auto;
+                max-height: 100% width: auto;
             height: auto;
             transform: translate(-50%, -50%);
             opacity: 0;
@@ -281,23 +280,64 @@
             position: absolute;
             left: 50vw;
             top: 50vh;
-            width: 1px;
-            height: 1px;
-            opacity: 0.8;
-            animation: flyWeasel 8.33s linear forwards;
-            /* 2.5s * 0.3 = 8.33s */
+            width: 100px;
+            height: 100px;
+            opacity: 1;
+            filter: invert();
+            animation-name: flyWeasel;
+            animation-timing-function: cubic-bezier(0.8, 0.0, 1, 1);
+            /* Exponential acceleration */
+            animation-fill-mode: forwards;
+            z-index: 1000;
+            pointer-events: none;
         }
 
         @keyframes flyWeasel {
             from {
-                transform: scale(1) translate(0, 0);
-                opacity: 0.8;
+                transform: scale(0.0000001) translate(0, 0);
+                opacity: 1;
             }
 
             to {
                 /* Move to a random direction and scale up */
-                transform: scale(8) translate(var(--tx, 0), var(--ty, 0));
-                opacity: 0;
+                transform: scale(20) translate(var(--tx, 0), var(--ty, 0));
+                opacity: 1;
+            }
+        }
+
+        #jerry-cloud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .jerry-fly {
+            position: absolute;
+            left: 50vw;
+            top: 50vh;
+            width: 80px;
+            height: 80px;
+            opacity: 1;
+            animation-name: flyJerry;
+            animation-timing-function: cubic-bezier(0.95, 0.01, 1, 1);
+            animation-fill-mode: forwards;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        @keyframes flyJerry {
+            from {
+                transform: scale(0.0000000001) translate(0, 0);
+                opacity: 1;
+            }
+
+            to {
+                transform: scale(50) translate(var(--tx, 0), var(--ty, 0));
+                opacity: 1;
             }
         }
     </style>
@@ -326,7 +366,7 @@
         <div class="anh-face-link">
             <img src="anh face.png" alt="Anh Face" class="anh-face-img">
         </div>
-       
+
         <!-- Snake overlay -->
         <div class="audio-overlay snake-overlay">
             <img src="snake.png" alt="Snake" class="snake-img">
@@ -338,6 +378,7 @@
     </div>
     <!-- Add this inside your <body>, after your overlay div -->
     <div id="weasel-cloud"></div>
+    <div id="jerry-cloud"></div>
 
     <!-- Audio elements -->
     <audio id="audio1" src="audio1.m4a"></audio>
@@ -385,7 +426,7 @@
 
                 // Random angle and distance
                 const angle = Math.random() * 2 * Math.PI;
-                const distance = 60 + Math.random() * 40; // percent of viewport
+                const distance = 60 + Math.random() * 80; // percent of viewport
                 const tx = Math.cos(angle) * distance + 'vw';
                 const ty = Math.sin(angle) * distance + 'vh';
 
@@ -393,7 +434,7 @@
                 img.style.setProperty('--ty', ty);
 
                 // Animation duration (randomize a bit if you want)
-                img.style.animationDuration = (8.33 + Math.random()) + 's';
+                img.style.animationDuration = (40.33 + Math.random()) + 's'; // 8.33s is 0.3x of 20.33s
 
                 cloud.appendChild(img);
             }
@@ -432,10 +473,56 @@
             playOrPauseAudio('audio2');
         });
 
+        function spawnJerryCloud() {
+    const cloud = document.getElementById('jerry-cloud');
+    cloud.innerHTML = '';
+    for (let i = 0; i < 20; i++) { // Number of jerrys
+        const img = document.createElement('img');
+        img.src = 'jerry.png';
+        img.className = 'jerry-fly';
+
+        // Random angle and distance
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 60 + Math.random() * 40; // percent of viewport
+        const tx = Math.cos(angle) * distance + 'vw';
+        const ty = Math.sin(angle) * distance + 'vh';
+
+        img.style.setProperty('--tx', tx);
+        img.style.setProperty('--ty', ty);
+
+        img.style.animationDuration = (55.33 + Math.random()) + 's';
+
+        cloud.appendChild(img);
+    }
+}
+
+function clearJerryCloud() {
+    document.getElementById('jerry-cloud').innerHTML = '';
+}
+
         document.querySelector('.face-link').addEventListener('click', function (e) {
             e.stopPropagation();
-            playOrPauseAudio('audio3');
+            const audio = document.getElementById('audio3');
+            if (!audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+                clearJerryCloud();
+            } else {
+                // Stop other audios
+                ['audio1', 'audio2', 'audio4'].forEach(id => {
+                    const a = document.getElementById(id);
+                    a.pause();
+                    a.currentTime = 0;
+                });
+                audio.currentTime = 0;
+                audio.play();
+                spawnJerryCloud();
+            }
         });
+
+        // Remove jerrys when audio3 ends or is paused
+        document.getElementById('audio3').addEventListener('pause', clearJerryCloud);
+        document.getElementById('audio3').addEventListener('ended', clearJerryCloud);
 
         document.querySelector('.anh-face-link').addEventListener('click', function (e) {
             e.stopPropagation();
@@ -465,7 +552,6 @@
         document.getElementById('cornerIcon').onclick = function () {
             window.open(instagramLink, '_blank');
         };
-
     </script>
 
 
